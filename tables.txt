@@ -1,0 +1,76 @@
+CREATE TABLE Users
+(
+	user_id CHAR(20),
+	name CHAR(40),
+	email CHAR(40),
+	password CHAR(40),
+	PRIMARY KEY (user_id),
+	UNIQUE(email),
+	FOREIGN KEY (user_id) REFERENCES Contacts
+);
+
+CREATE TABLE Contacts 
+(
+	contact_id CHAR(20),
+	user_id_1 CHAR(20),
+	user_id_2 CHAR(20),
+	PRIMARY KEY (contact_id),
+	FOREIGN KEY (user_id_1) REFERENCES Users (user_id),
+	FOREIGN KEY (user_id_2) REFERENCES Users (user_id)
+);
+
+CREATE TABLE Participates
+(
+	participant_id CHAR(20),
+	user_id CHAR(20),
+	conv_id CHAR(20),
+	PRIMARY KEY (participant_id),
+	FOREIGN KEY (user_id) REFERENCES Users (user_id),
+	FOREIGN KEY (conv_id) REFERENCES Conversations (conversation_id)	
+);
+
+CREATE TABLE Conversations
+(
+	creator_id CHAR(20),
+	title CHAR(40),
+	conversation_id CHAR(20),
+	PRIMARY KEY (conversation_id)
+);
+
+CREATE TABLE  Exchanges 
+(
+	exchange_id CHAR(20),
+	conv_id CHAR(20),
+	message_id CHAR(20),
+	date LocalDateTime,
+	PRIMARY KEY(exchange_id),
+	FOREIGN KEY (conv_id) REFERENCES Conversations (conversation_id),
+	FOREIGN KEY (mmessage_id) REFERENCES Messages (message_id)
+);
+
+CREATE TABLE Messsages 
+(
+	message_id CHAR(20),
+	sender_id CHAR(20),
+	receiver_id CHAR(20),
+	text CHAR(255),
+	file_url CHAR(255),
+	PRIMARY KEY (message_id)
+);
+
+CREATE TABLE Attachments 
+(
+	attachment_id CHAR(20),
+	message_id CHAR(20),
+	file_id CHAR(20),
+	PRIMARY KEY (attachment_id),
+	FOREIGN KEY (message_id) REFERENCES Messages (message_id)
+);
+
+CREATE TABLE Files 
+(
+	file_id CHAR(20),
+	filename CHAR(40),
+	file_url CHAR(255),
+	PRIMARY KEY (file_id)
+);
